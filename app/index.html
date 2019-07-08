@@ -1,0 +1,172 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="de"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>Wasser für Berlins Bäume</title>
+  <meta name="description" content="Wasser für Berlins Bäume" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <link type="text/plain" rel="author" href="humans.txt" />
+  <link rel="manifest" href="site.webmanifest" />
+  <link rel="apple-touch-icon" href="icon/icon.png" />
+
+  <link rel="icon" type="image/png" href="icon/favicon-alpha-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="icon/favicon-alpha-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/x-icon" href="icon/favicon.ico" />
+  <link rel="icon" type="image/png" href="icon/favicon-alpha-32x32.png" />
+  <link rel="shortcut icon" type="image/x-icon" href="icon/favicon.ico" />
+
+  <link href="https://fonts.googleapis.com/css?family=Contrail+One|Open+Sans:300,300i,700" rel="stylesheet">
+  <link href='https://api.mapbox.com/mapbox-gl-js/v0.40.0/mapbox-gl.css' rel='stylesheet' />
+  <link href="./css/logo-min.css" rel="stylesheet">
+  <link href='./css/style-min.css' rel='stylesheet' />
+  <link href='./css/print-min.css' rel='stylesheet' media="print" />
+</head>
+<body>
+  <div id="header">
+    <div id="logo"><img src="images/logo-icon@2x.png" alt="Wasser für Berlins Bäume" /></div>
+    <h1>Wasser für Berlins Bäume</h1>
+  </div>
+  <div class="loading" id="loading">
+    <div class="outer"><div class="middle"><div class="inner">
+      <div class="loader">
+        <img class="i1" src="images/ani-1@2x.png" alt="loading" />
+        <img class="i2" src="images/ani-2@2x.png" alt="loading" />
+        <img class="i3" src="images/ani-3@2x.png" alt="loading" />
+        <img class="i4" src="images/ani-4@2x.png" alt="loading" />
+      </div>
+    </div></div></div>
+  </div>
+  <div id="map"></div>
+  <div id="sidebar">
+    <div id="sidebar-content">
+      <div id="details" class="sidebar-content">
+        <div class="inner">
+          <div class="loading">
+            <div class="outer"><div class="middle"><div class="inner">
+              <div class="loader">
+                <img class="i1" src="images/ani-1@2x.png" alt="loading" />
+                <img class="i2" src="images/ani-2@2x.png" alt="loading" />
+                <img class="i3" src="images/ani-3@2x.png" alt="loading" />
+                <img class="i4" src="images/ani-4@2x.png" alt="loading" />
+              </div>
+            </div></div></div>
+          </div>
+          <div id="detail-content">
+            <span id="detail-type"></span>
+            <div id="detail-actions">
+              <a id="detail-close"></a>
+              <a id="detail-fav"></a>
+              <a href="javascript:window.print()" id="detail-print"></a>
+              <a id="detail-map"></a>
+            </div>
+            <h2 id="detail-name"></h2>
+            <span id="detail-parent"></span>
+            <span id="detail-parentType"></span>
+            
+            <div id="detail-meta">
+              ID: <span id="detail-id"></span> NUM:<span id="detail-num"></span><br />
+              <a id="detail-link" href="">Auf Berlin.de einsehen &raquo;</a><br />
+              <a id="detail-mapLink" href="">Auf Berlin.de-Stadtplan anschauen &raquo;</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="info" class="sidebar-content">
+        <div class="inner">
+          <div id="info-container">
+            <h2>Wasser für Berlins Bäume</h2>
+            <p>
+              Wasser für Berlins Bäume ist ein Projekt des neuen <a href="http://lab.technologiestiftung-berlin.de">Ideation &amp;&nbsp;Prototyping Lab</a> der gemeinnützigen Technologiestiftung Berlin. Das Lab entwickelt digitale Tools und Anwendungen, die in erster Linie den Bürgerinnen und Bürgern der Stadt zugutekommen. Die Kita-Suche soll Eltern bei der Suche der passenden Kita unterstützen. Die zeitgemäßen Such- und Filterfunktionen sowie die Kartendarstellung werden durch Daten des Landes Berlin möglich gemacht. Durch Beispiele wie dieses versucht das Ideation &amp;&nbsp;Protoyping Lab den Mehrwert von offenen Daten für Bürger*innen und Verwaltung zu unterstreichen.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div id="legal" class="sidebar-content">
+        <div class="inner">
+          <div id="legal-container">
+            <h2>Kontakt</h2>
+            <p>Grunewaldstraße 61-62<br />
+10825 Berlin<br />
++49 30 209 69 99-0<br />
+info@technologiestiftung-berlin.de</p>
+            <p>
+              <a href="https://www.technologiestiftung-berlin.de/de/stiftung/kontakt-anfahrt/">Kontaktdaten</a><br />
+              <a href="https://www.technologiestiftung-berlin.de/de/impressum">Impressum</a><br />
+              <a href="https://www.technologiestiftung-berlin.de/de/datenschutz/">Datenschutz</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div id="list" class="sidebar-content">
+        <div class="inner">
+          <div id="search">
+            <div class="inner-search">
+              <input type="text" placeholder="Suche..." id="searchfield" />
+            </div>
+          </div>
+          <ul>
+          </ul>
+          <p id="search_placeholder">
+             <img src="images/touch@2x.png" alt="Ihr Suchbegriff muss mindestens drei Zeichen lang sein." />Ihr Suchbegriff muss mindestens<br />drei Zeichen lang sein.
+          </p>
+        </div>
+      </div>
+    
+    </div>
+    <div id="sidemenu">
+      <nav>
+        <ul class="bottom">
+          <li data-item="info" class="desktop-only">
+            <img src="images/menu-info-white@2x.png" alt="Info" width="40" class="white" />
+            <img src="images/menu-info-black@2x.png" alt="Info" width="40" class="black" />
+            <span>Info</span>
+          </li>
+          <li data-item="legal" class="desktop-only">
+            <img src="images/menu-legal-white@2x.png" alt="Legal" width="40" class="white" />
+            <img src="images/menu-legal-black@2x.png" alt="Legal" width="40" class="black" />
+            <span>Legal</span>
+          </li>
+          <li data-item="info" class="mobile-only">
+            <img src="images/menu-info-white@2x.png" alt="Info" width="40" class="white" />
+            <img src="images/menu-info-black@2x.png" alt="Info" width="40" class="black" />
+            <span>Info &amp; Legal</span>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+  <div id="tsb-logo">
+    <a href="http://www.technologiestiftung-berlin.de"> 
+      <span>Ein Projekt der</span><br />
+      <img src="images/tsb-logo-content-vertical.svg" alt="Technologiestiftung Berlin" />
+    </a>
+  </div>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src='https://api.mapbox.com/mapbox-gl-js/v0.40.0/mapbox-gl.js'></script>
+  <script src="js/main-min.js"></script>
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['setCookieDomain', '*.technologiestiftung-berlin.de']);
+  _paq.push(['setDoNotTrack', true]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//www.technologiestiftung-berlin.de/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 6]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//www.technologiestiftung-berlin.de/piwik/piwik.php?idsite=6" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+</body>
+</html>
