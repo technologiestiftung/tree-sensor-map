@@ -10,8 +10,8 @@
     }],
     "theme_color":"#fff",
     "background_color":"#fff",
-    "start_url": "http://www.kita-suche.de",
+    "start_url": "xxx.de",
     "display":"fullscreen",
-    "name":"Kita-Suche Berlin",
-    "short_name":"Kita-Suche"
+    "name":"Wasser für Berlins Bäume",
+    "short_name":"Wasser-Bäume"
 }

@@ -1,128 +1,243 @@
-/*global mapboxgl,d3,console*/
+var marker_tree = false;
+var marker_tree_el = document.createElement('div');
+marker_tree_el.className = 'marker tree';
 
-detailShow = false,
-geojson = {},
-filterElements = {},
-filterKeys = {},
-postcodes = null, postcodeKeys = [],
-searchterm = '',
-scales = {},
-timeOpen = false,
-timeClose = false,
-borderRadius = 2.5, width = 287,
-timesOpen = [],
-timesClose = [],
-acceptance = {over:{key:'over',count:0,state:false}, under:{key:'under',count:0,state:false}},
-overCount = 0,
-underCount = 0,
-filter = ['type','languages','topics','educational','parentType'], //parent;
-filters = {},
-home = false,
-init = false;
 
+mapboxgl.accessToken = 'pk.eyJ1IjoidGVjaG5vbG9naWVzdGlmdHVuZyIsImEiOiJjanh2azhreTEwMWc5M21sZjd4ODFvOHAwIn0.dW0XyU0DUKDva1rYWlac_Q';
 var map = new mapboxgl.Map({
-  container: 'map',
-  style: 'style.json',
-  center: [13.4244,52.5047],
-  zoom: 10
-});
-// TODO: get right data
-map.on('load', function(e){
-  if(!init){
-    init = true;
-    d3.queue()
-    .defer(d3.csv, "data/kitas_clean.csv")
-    .defer(d3.json, "data/kitas_dict.json")
-    .defer(d3.csv, "data/plz.csv")
-    .await(function(error, file1, file2, file3) {
-      if (error) { console.error(error); 
-      } else {
-        kitas = file1;
-        kitas_dict = file2;
-        postcodes = file3;
-        postcodes.forEach(function(p){
-          postcodeKeys.push(p.id);
-        });
-      }
-      welcome();
-    });
-  }
+    container: 'map',
+    style: 'mapbox://styles/mapbox/light-v10', // stylesheet location
+    //style: 'style.json',
+    center: [13.4244,52.5047],
+    zoom: 10
 });
 
-map.fitBounds([[13.0790332437,52.3283651024],[13.7700526861,52.6876624308]],
-  {
-    offset: [0, 50],
-    speed:999
-  });  
-  
-  map.addSource('kitas-default', { type: 'geojson', data: geojson });
-  
-  map.addLayer({
-    "id": "kitas-default",
-    "type": "circle",
-    "source": "kitas-default",
-    "paint": {
-      'circle-radius': {
-        property: 'size',
-        'base': 1.75,
-        stops: [
-          [{zoom: 2, value: 0}, 0],
-          [{zoom: 2, value: d3.max(kitas, function(d){return d.size;})}, 3],
-          [{zoom: 22, value: 0}, 0],
-          [{zoom: 22, value: d3.max(kitas, function(d){return d.size;})}, 500]
-        ]
-      },
-      'circle-color': {
-        property: 'class',
-        type: 'categorical',
-        stops: [
-          ['normal', 'rgba(230,4,51,1)'],
-          ['focussed', 'transparent'],
-          ['inactive', '#999999']]
+map.on('load', function(e) {
+    
+    // Add a new source from our GeoJSON data .
+    map.addSource("trees", {
+        type: "geojson",
+        data: "data/dummy_tree.geojson",
+        
+    });
+    
+    map.addSource("brunnen", {
+        type: "geojson",
+        data: "data/brunnen.geojson",
+        
+    });
+    
+    map.addSource("trinwasserbrunnen", {
+        type: "geojson",
+        data: "data/trinkwasserbrunnen.geojson",
+        
+    });
+    
+    map.addSource("baeume1", {
+        type: "geojson",
+        data: "data/anlagenbaeume.geojson",
+        
+    });
+    
+    map.addSource("baeume2", {
+        type: "geojson",
+        data: "data/strassenbaeume.geojson",
+        
+    });
+    
+    map.addLayer({
+        id: "trees",
+        type: "circle",
+        source: "trees",
+        "paint": {
+            'circle-radius': {
+                'base': 1.75,
+                'stops': [[10, 3], [22, 250]]
+                },
+            'circle-color': {
+                property: 'waterstatus',
+                stops: [
+                    [0.1, '#7fff7f'],
+                    [1, 'rgba(230,4,51,1)']
+                ]
+            }
         }
-      }
+        
+        
     });
     
-    (['kitas-default']).forEach(function(k){
-      
-      map.on('click', k, function (e) {
-        var d = JSON.parse(e.features[0].properties.data);
+    map.addLayer({
+        id: "brunnen",
+        type: "circle",
+        source: "brunnen",
+        "paint": {
+            'circle-radius': {
+                'base': 1.75,
+                'stops': [[10, 1], [22, 200]]
+                },
+            'circle-color': '#0000FF'
+        }
+        
+    });
+    
+    map.addLayer({
+        id: "trinwasserbrunnen",
+        type: "circle",
+        source: "trinwasserbrunnen",
+        "paint": {
+            'circle-radius': {
+                'base': 1.75,
+                'stops': [[10, 1], [22, 200]]
+                },
+            'circle-color': '#4ca6ff'
+        }
+        
+    });
+    
+    map.addLayer({
+        id: "baeume1",
+        type: "circle",
+        source: "baeume1",
+        "paint": {
+            'circle-radius': {
+                'base': 1.75,
+                'stops': [[10, 1], [22, 200]]
+                },
+            'circle-color': '#008000'
+        }
+        
+    });
+    
+    
+    map.addLayer({
+        id: "baeume2",
+        type: "circle",
+        source: "baeume2",
+        "paint": {
+            'circle-radius': {
+                'base': 1.75,
+                'stops': [[10, 1], [22, 200]]
+                },
+            'circle-color': '#008000'
+        }
+        
+    });
+    
+    
+    var popup = new mapboxgl.Popup({
+        closeButton: false,
+        closeOnClick: false
+    });
+    
+    
+    map.on('click', "trees", function (e) {
+        var d = e.features[0].properties;
         setDetails(d);
-      });
-      
-      map.on('mouseenter', k, function () {
+    });
+    
+    map.on('mouseenter', "trees", function (e) {
         map.getCanvas().style.cursor = 'pointer';
-      });
-      
-      map.on('mouseleave', k, function () {
+        
+        var coordinates = e.features[0].geometry.coordinates.slice();
+        var waterstatus = e.features[0].properties.waterstatus;
+        
+        // Ensure that if the map is zoomed out such that multiple
+        // copies of the feature are visible, the popup appears
+        // over the copy being pointed to.
+        while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+            coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+        }
+        
+        // Populate the popup and set its coordinates
+        // based on the feature found.
+        popup.setLngLat(coordinates)
+        .setHTML(waterstatus)
+        .addTo(map);
+    });
+    
+    map.on('mouseleave', "trees", function () {
         map.getCanvas().style.cursor = '';
-      });
-      
+        popup.remove();
+    });
+    initDone();
+});
+//})
+
+function initDone(){
+    d3.select('#loading .outer')
+    .transition()
+    .ease(d3.easeCubicIn)
+    .duration(500)
+    .style('opacity',0)
+    .on('end', function(){
+        (d3.select(this)).remove();
     });
     
-    geojson.features = geojson.features.sort(function(a,b){
-      if (a.properties.data.name < b.properties.data.name) {
-        return -1;
-      }
-      if (a.properties.data.name > b.properties.data.name) {
-        return 1;
-      }
-      return 0;
+    d3.select('#sidebar')
+    .transition()
+    .delay(500)
+    .ease(d3.easeCubicOut)
+    .duration(500)
+    .style('display','block')
+    .style('opacity',1);
+    
+    d3.selectAll('#sidemenu li').datum(function(){
+        return d3.select(this).attr('data-item');
+    }).on('click', function(d){
+        if(d3.select(this).classed('active')&&!detailShow){
+            d3.selectAll('#sidemenu li').classed('active',false);
+            closeSidebar();
+        }else{
+            detailShow = false;
+            d3.selectAll('.sidebar-content').style('visibility','visible');
+            if(marker_tree){
+                marker_tree.remove();
+            }
+            
+            d3.selectAll('#sidemenu li').classed('active',false);
+            d3.select(this).classed('active',true);
+            
+            d3.selectAll('.sidebar-content').style('display','none');
+            d3.select('#'+d).style('display','block');
+            openSidebar();
+        }
     });
     
-    setList();  
+}
+function setDetails(d){
+    if(marker_tree){
+        marker_tree.remove();
+    }
     
-    d3.select('#detail-close').on('click', function(){
-      if(marker_kita){
-        marker_kita.remove();
-      }
-      
-      if(d3.selectAll('#sidemenu li.active').size()==0){
-        closeSidebar();
-      }else{
-        d3.select('#details').style('display','none');
-        d3.selectAll('.sidebar-content').style('visibility','visible');
-        detailShow = false;
-      }
-    });
+    marker_tree = new mapboxgl.Marker(marker_tree_el, {
+        offset: [5.5, -22.5]
+    })
+    .setLngLat([d.alon,d.alat])
+    .addTo(map);
     
+}
+
+
+function openSidebar(){
+    if(!d3.select('#sidebar').classed('active')){
+        d3.select('#sidebar')
+        .classed('active',true);
+        
+        if(window.innerWidth > 768){
+            map.panTo(map.getCenter(), {duration:500, offset:{x:200,y:0}});
+        }
+    }
+}
+
+function closeSidebar(){
+    if(d3.select('#sidebar').classed('active')){
+        d3.select('#sidebar')
+        .classed('active',false);
+        
+        d3.selectAll('#sidemenu li').classed('active',false);
+        
+        if(window.innerWidth > 768){
+            map.panTo(map.getCenter(), {duration:500, offset:{x:-200,y:0}});
+        }
+    }
+}
